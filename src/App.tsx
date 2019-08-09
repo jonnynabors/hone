@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import MarkdownIt from "markdown-it";
 
 const App: React.FC = () => {
+  const md = new MarkdownIt();
+  const [markdown, setMarkdown] = useState(
+    md.render("# Welcome to hOne \n ### Start Typing")
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <textarea
+        className="left"
+        onChange={e => setMarkdown(md.render(e.target.value))}
+      />
+      <div
+        className="right"
+        dangerouslySetInnerHTML={{ __html: markdown || "<p>&nbsp;</p>" }}
+      />
     </div>
   );
-}
+};
 
 export default App;
